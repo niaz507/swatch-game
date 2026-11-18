@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Swatch · a pigment game</title>
+  <meta name="description" content="Swatch, a pigment-mixing game by Niazur Rahman. Match eight target colours with lead white, ochre, madder, verdigris, and lamp black.">
+  <meta name="author" content="Niazur Rahman">
+  <meta name="theme-color" id="themeColor" content="#E4E4E1">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@600;700;800&family=Martian+Mono:wght@400;500&family=Petrona:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    (function () {
+      var theme = "light";
+      try {
+        var saved = localStorage.getItem("niaz-swatch-theme");
+        if (saved === "light" || saved === "dark") theme = saved;
+        else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
+      } catch (e) {}
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+      var meta = document.getElementById("themeColor");
+      if (meta) meta.setAttribute("content", theme === "dark" ? "#131313" : "#E4E4E1");
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap bar">
+      <div class="brand">
+        <p class="wordmark">Swatch</p>
+        <p class="subtitle">A pigment game</p>
+      </div>
+      <button type="button" class="theme-btn" id="themeToggle" aria-pressed="false" aria-label="Switch to dark theme">
+        <span class="when-light">Dark</span>
+        <span class="when-dark">Light</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" tabindex="-1">
+    <noscript>
+      <p class="noscript">JavaScript is off, so the bench cannot be mixed.</p>
+    </noscript>
+
+    <div id="play">
+      <div class="layout">
+        <section class="stage" aria-labelledby="colour-name">
+          <ol class="pips" id="pips" aria-label="Rounds"></ol>
+          <p class="kicker" id="kicker">Round 01 / 08</p>
+          <h1 id="colour-name" tabindex="-1">Chalk rose</h1>
+          <p class="lede" id="lede">Madder, thinned hard with lead white. The red should only whisper.</p>
+          <div class="tray" role="group" aria-label="Target and your mix">
+            <div class="swatch" id="target-swatch" role="img" aria-label="Target"></div>
+            <div class="swatch" id="mix-swatch" role="img" aria-label="Your mix"></div>
+          </div>
+          <div class="captions">
+            <p>Target</p>
+            <p>Your mix <span id="bare">· bare panel</span></p>
+          </div>
+        </section>
+
+        <section class="bench" id="bench" aria-labelledby="bench-title">
+          <div class="bench-head">
+            <h2 id="bench-title">The bench</h2>
+            <p class="so-far" id="so-far">So far 0</p>
+          </div>
+          <p class="bench-note">Proportions, not heaps. The same balance matches, whether the mix is thin or heavy.</p>
+          <div id="pigments"></div>
+          <p class="result" id="result" tabindex="-1" hidden>
+            <span class="result-score" id="result-score"></span>
+            <span class="result-note" id="result-note"></span>
+          </p>
+          <div class="actions">
+            <button type="button" class="text-btn" id="clear">Clear the bench</button>
+            <button type="button" class="lock" id="lock">Lock the mix</button>
+          </div>
+          <p class="hint" id="hint">Keys 1 to 5 focus a pigment. Arrows change it, and shift moves five drops. Enter locks the mix.</p>
+        </section>
+      </div>
+    </div>
+
+    <section class="proof" id="proof" hidden>
+      <p class="kicker">Proof</p>
+      <h1 id="rank" tabindex="-1" aria-describedby="total-line">Raw canvas</h1>
+      <p class="total-line" id="total-line">
+        <span class="score" id="total">0</span>
+        <span class="outof">out of 1000</span>
+      </p>
+      <div class="share">
+        <label class="sr-only" for="share-line">Result to copy</label>
+        <input id="share-line" readonly spellcheck="false" value="Swatch 0/1000 · Raw canvas">
+        <div class="share-actions">
+          <button type="button" class="ghost" id="copy">Copy</button>
+          <button type="button" class="ghost" id="share-btn" hidden>Share</button>
+        </div>
+      </div>
+      <p class="best-line" id="best-line"></p>
+      <ol class="proof-list" id="proof-list" aria-label="Rounds in this sitting"></ol>
+      <button type="button" class="lock again" id="again">Play again</button>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <a href="https://www.niazur.me">Designed by Niazur Rahman</a>
+      <p id="footer-best">Best · none yet</p>
+    </div>
+  </footer>
+
+  <script src="colour.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
