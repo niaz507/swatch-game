@@ -1,0 +1,9 @@
+{
+  "name": "swatch",
+  "private": true,
+  "description": "A pigment-mixing game by Niazur Rahman.",
+  "scripts": {
+    "test": "node test/colour.test.js"
+  },
+  "license": "MIT"
+}
